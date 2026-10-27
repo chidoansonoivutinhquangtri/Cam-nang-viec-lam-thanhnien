@@ -309,6 +309,9 @@ function list(p){
 
 addEventListener("hashchange",()=>{filter="Tất cả";q="";render(true)});
 init();
+/* Tự cập nhật khi Google Sheet thay đổi: tải lại định kỳ và khi quay lại tab trình duyệt */let LASTLOAD=Date.now();
+const softRefresh=()=>{if(document.hidden||(document.activeElement&&document.activeElement.id==="s"))return;LASTLOAD=Date.now();init(true).catch(()=>{})};
+setInterval(softRefresh,REFRESH_MS);document.addEventListener("visibilitychange",()=>{if(!document.hidden&&Date.now()-LASTLOAD>60000)softRefresh()});
 </script>
 </body>
 </html>
